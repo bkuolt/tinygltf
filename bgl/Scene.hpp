@@ -76,9 +76,17 @@ class Mesh : public tinygltf::Mesh {
 //////////////////////////
 //////////////////////////
 
-void LoadCamera(tinygltf::Model::Camera c)  {
 
-   // c.
+void LoadCamera(const tinygltf::Camera &camera)  {
+    std::cout << camera.type << " camera: " << std::quoted(camera.name) << std::endl;
+
+    if (camera.type == "orthographic") {
+        tinygltf::PerspectiveCamera camera { camera.perspective };
+        glOrtho(0, camera.xmag, 0, camera.ymag, camera.zfar, camera.znear);
+    } else if (camera.type == "perspective") {
+        // TODO
+    }
+
 }
 
 void PrintStat() {
