@@ -6,6 +6,9 @@
 // #define TINYGLTF_NOEXCEPTION // optional. disable exception handling.
 #include "tiny_gltf.h"
 
+#include <Windows.h>
+#include <glew.h>
+#include <gl/GL.h>
 
 //////////////////////////////
 #include <algorithm>
@@ -111,7 +114,24 @@ using GLuint = int;
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
-tinygltf::Buffer
+GLuint LoadBuffer(tinygltf::Buffer buffer, GLenum target) {
+    std::cout << "Loading " << buffer.name << std::endl;
+
+    GLuint buffer {};
+    glGenBuffers(1, &buffer);
+    glBindBuffer(target, buffer);
+    glBufferData(target, buffer.data.size(), buffer.data.data(), GL_STATIC_DRAW);
+    return buffer;
+}
+
+GLuint LoadBuffer(const tinygltf::Buffer &buffer) {
+    GLenum target;  // TODO: get target
+    return LoadBuffer(buffer, target);
+}
+
+
+
+
 
 namespace gl {
 
